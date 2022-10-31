@@ -34,7 +34,7 @@
         /// <returns></returns>
         public override bool CharacterHasRequirement(Character character)
         {
-            return ((RequiredSkillID <= 0) || ((character?.Inventory?.SkillKnowledge?.IsItemLearned(RequiredSkillID) ?? false) ^ Inverted));
+            return ((RequiredSkillID == 0) || ((character?.Inventory?.SkillKnowledge?.IsItemLearned(RequiredSkillID) ?? false) ^ Inverted));
         }
     }
 }

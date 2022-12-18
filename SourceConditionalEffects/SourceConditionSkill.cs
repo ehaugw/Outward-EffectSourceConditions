@@ -28,7 +28,7 @@
         }
 
         /// <summary>
-        /// Returns true if RequiredSkillID <= 0 or if the character knows the Skill with ItemID = RequiredSkillID
+        /// Returns true if RequiredSkillID == 0 or if the character knows the Skill with ItemID = RequiredSkillID
         /// </summary>
         /// <param name="character"></param>
         /// <returns></returns>

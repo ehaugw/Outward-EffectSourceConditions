@@ -17,11 +17,11 @@ namespace EffectSourceConditions
                 {
                     if (sourceCondition.CharacterHasRequirement(_affectedCharacter))
                     {
-                        return true;
+                        return !Invert;
                     }
                 }
             }
-            return false;
+            return Invert;
         }
 
         public static Skill.ActivationCondition AddToSkill(Skill skill)

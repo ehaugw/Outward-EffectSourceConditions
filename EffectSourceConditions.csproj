@@ -38,6 +38,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DynamicSkillStats.cs" />
     <Compile Include="EffectSourceConditions.cs" />
     <Compile Include="SourceConditionalEffects\SourceCondition.cs" />
     <Compile Include="SourceConditionalEffects\SourceConditionEquipment.cs" />

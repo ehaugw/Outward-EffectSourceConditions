@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using static MapMagic.ObjectPool;
 
 namespace EffectSourceConditions
 {
@@ -31,28 +32,22 @@ namespace EffectSourceConditions
             if (!skill.InCooldown())
                 skill.Cooldown = 0;
         }
-    }
-
-    [HarmonyPatch(typeof(Skill), "HasBaseRequirements")]
-    public class Skill_HasBaseRequirements
-    {
-        [HarmonyPrefix]
-        public static void Prefix(Skill __instance, bool _tryingToActivate/*, out bool __result*/)
+        
+        public static void TryUpdateSkillStats(Skill skill)
         {
-
-            if (__instance.gameObject.GetComponentsInChildren<DynamicSkillStat>() is DynamicSkillStat[] dynamicStats && dynamicStats.Length > 0)
+            if (skill.gameObject.GetComponentsInChildren<DynamicSkillStat>() is DynamicSkillStat[] dynamicStats && dynamicStats.Length > 0)
             {
                 bool updated = false;
 
                 foreach (var dynamicStat in dynamicStats)
                 {
-                    if (__instance.OwnerCharacter is Character character && dynamicStat.gameObject.GetComponents<SourceCondition>() is SourceCondition[] sourceConditions)
+                    if (skill.OwnerCharacter is Character character && dynamicStat.gameObject.GetComponents<SourceCondition>() is SourceCondition[] sourceConditions)
                     {
                         foreach (var sourceCondition in sourceConditions)
                         {
                             if (sourceCondition.CharacterHasRequirement(character))
                             {
-                                dynamicStat.SetSkillStats(__instance);
+                                dynamicStat.SetSkillStats(skill);
                                 updated = true;
                             }
                         }
@@ -60,9 +55,33 @@ namespace EffectSourceConditions
                 }
                 if (!updated)
                 {
-                    DynamicSkillStat.UnsetSkillStats(__instance);
+                    DynamicSkillStat.UnsetSkillStats(skill);
                 }
             }
+        }
+    }
+
+    [HarmonyPatch(typeof(Item), "Description", MethodType.Getter)]
+    //[HarmonyAfter(new string[] {"com.sinai.sideloader"})]
+    public class Item_Description
+    {
+        [HarmonyPrefix]
+        public static void Prefix(Item __instance)
+        {
+            if (__instance is Skill skill)
+            {
+                DynamicSkillStat.TryUpdateSkillStats(skill);
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(Skill), "HasBaseRequirements")]
+    public class Skill_HasBaseRequirements
+    {
+        [HarmonyPrefix]
+        public static void Prefix(Skill __instance)
+        {
+            DynamicSkillStat.TryUpdateSkillStats(__instance);
         }
     }
 }

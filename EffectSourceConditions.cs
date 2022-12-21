@@ -22,6 +22,7 @@ namespace EffectSourceConditions
             harmony.PatchAll();
         }
 
+        public const string EFFECTS_CONTAINER_ACTIVATION = "ActivationEffects";
         public const string EFFECTS_CONTAINER = "Effects";
         public const string SOURCE_CONDITION_CONTAINER = "SourceConditions";
         public const string EFFECTS_MANUAL_CONTAINER = "ManualContainer";

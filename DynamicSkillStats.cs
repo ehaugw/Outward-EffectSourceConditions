@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using TinyHelper;
 using static MapMagic.ObjectPool;
 
 namespace EffectSourceConditions
@@ -11,6 +12,12 @@ namespace EffectSourceConditions
         public float Cooldown = 2;
         public float DurabilityCost = 0;
 
+        public Character.SpellCastType CastType = Character.SpellCastType.NONE;
+        public Character.SpellCastModifier CastModifier = Character.SpellCastModifier.NONE;
+        public float MobileCastMovementMult = -1;
+        public int CastSheatheRequired = 0;
+        public bool CastLocomotionEnabled = false;
+
         //public int ?ItemID = null;
 
         public void SetSkillStats(Skill skill) {
@@ -18,6 +25,14 @@ namespace EffectSourceConditions
             skill.StaminaCost= StaminaCost;
             skill.HealthCost= HealthCost;
             skill.DurabilityCost= DurabilityCost;
+
+            skill.CastSheathRequired = CastSheatheRequired;
+            skill.MobileCastMovementMult = MobileCastMovementMult;
+            skill.CastModifier = CastModifier;
+            skill.CastLocomotionEnabled = CastLocomotionEnabled;
+            if (skill.ActivateEffectAnimType != CastType)
+                At.SetValue(CastType, typeof(Item), skill, "m_activateEffectAnimType");
+            
             if (!skill.InCooldown())
                skill.Cooldown= Cooldown;
         }
@@ -29,6 +44,13 @@ namespace EffectSourceConditions
             skill.HealthCost= 0;
             skill.DurabilityCost= 0;
 
+            skill.CastSheathRequired = 0;
+            skill.MobileCastMovementMult = -1;
+            skill.CastModifier = Character.SpellCastModifier.Immobilized;
+            skill.CastLocomotionEnabled = false;
+            if (skill.ActivateEffectAnimType != Character.SpellCastType.NONE)
+                At.SetValue(Character.SpellCastType.NONE, typeof(Item), skill, "m_activateEffectAnimType");
+            
             if (!skill.InCooldown())
                 skill.Cooldown = 0;
         }

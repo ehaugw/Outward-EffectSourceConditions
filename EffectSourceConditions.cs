@@ -13,7 +13,7 @@ namespace EffectSourceConditions
     public class EffectSourceConditions : BaseUnityPlugin
     {
         public const string GUID = "com.ehaugw.effectsourceconditions";
-        public const string VERSION = "2.1.1";
+        public const string VERSION = "2.2.1";
         public const string NAME = "Effect Source Conditions";
 
         internal void Awake()

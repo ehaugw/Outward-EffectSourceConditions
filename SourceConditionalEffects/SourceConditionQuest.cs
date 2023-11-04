@@ -1,40 +1,30 @@
-﻿namespace EffectSourceConditions
+﻿using System.Linq;
+using TinyHelper;
+
+namespace EffectSourceConditions
 {
     public class SourceConditionQuest : SourceCondition
     {
         /// <summary>
-        /// The skill ID that a character must have learned for CharacterHasRequirement to return true
+        /// The skill IDs that a character must have learned for CharacterHasRequirement to return true
         /// </summary>
-        public int RequiredQuestID;
+        public int[] Quests;
         
         /// <summary>
         /// Set to true to require the character to not have the relevant skill
         /// </summary>
         public bool Inverted = false;
 
-        /// <summary>
-        /// Assigns the ID of the provided Skill to RequiredSkillID
-        /// </summary>
-        public Item RequiredQuest
-        {
-            get
-            {
-                return ResourcesPrefabManager.Instance.GetItemPrefab(RequiredQuestID);
-            }
-            set
-            {
-                RequiredQuestID = value.ItemID;
-            }
-        }
+        public LogicType Logic = LogicType.Any;
 
         /// <summary>
-        /// Returns true if RequiredSkillID == 0 or if the character knows the Skill with ItemID = RequiredSkillID
+        /// Returns true the character knows the Skill with ItemID = RequiredSkillID
         /// </summary>
         /// <param name="character"></param>
         /// <returns></returns>
         public override bool CharacterHasRequirement(Character character)
         {
-            return ((RequiredQuestID == 0) || ((character?.Inventory?.QuestKnowledge?.IsItemLearned(RequiredQuestID) ?? false) ^ Inverted));
+            return QuestRequirements.HasQuestKnowledge(character, Quests, Logic, Inverted);
         }
     }
 }

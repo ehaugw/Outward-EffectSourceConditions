@@ -44,6 +44,7 @@
     <Compile Include="SourceConditionalEffects\SourceCondition.cs" />
     <Compile Include="SourceConditionalEffects\SourceConditionEquipment.cs" />
     <Compile Include="SourceConditionalEffects\SourceConditionMana.cs" />
+    <Compile Include="SourceConditionalEffects\SourceConditionQuestLocal.cs" />
     <Compile Include="SourceConditionalEffects\SourceConditionQuest.cs" />
     <Compile Include="SourceConditionalEffects\SourceConditionStatusEffect.cs" />
     <Compile Include="SourceConditionalEffects\SourceConditionSkill.cs" />

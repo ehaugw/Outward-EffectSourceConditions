@@ -42,7 +42,9 @@
     <Compile Include="EffectSourceConditions.cs" />
     <Compile Include="EffectSourceConditionChecker.cs" />
     <Compile Include="SourceConditionalEffects\SourceCondition.cs" />
+    <Compile Include="SourceConditionalEffects\SourceConditionItemInInventory.cs" />
     <Compile Include="SourceConditionalEffects\SourceConditionEquipment.cs" />
+    <Compile Include="SourceConditionalEffects\SourceConditionCorruption.cs" />
     <Compile Include="SourceConditionalEffects\SourceConditionMana.cs" />
     <Compile Include="SourceConditionalEffects\SourceConditionQuestLocal.cs" />
     <Compile Include="SourceConditionalEffects\SourceConditionQuest.cs" />

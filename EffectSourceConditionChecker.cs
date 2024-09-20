@@ -11,11 +11,20 @@ namespace EffectSourceConditions
     {
         protected override bool CheckIsValid(Character _affectedCharacter)
         {
-            if (transform.parent.parent.gameObject.GetComponentsInChildren<SourceCondition>() is SourceCondition[] sourceConditions)
+            if (transform?.parent?.parent?.FindAllInAllChildren("ActivationEffects") is Transform[] activationEffectTransforms)
             {
-                foreach (var sourceCondition in sourceConditions)
+                foreach (var transform in activationEffectTransforms)
                 {
-                    if (sourceCondition.CharacterHasRequirement(_affectedCharacter))
+                    bool result = true;
+                    var components = transform.GetComponentsInChildren<SourceCondition>();
+                    foreach (var sourceCondition in components)
+                    {
+                        if (!sourceCondition.CharacterHasRequirement(_affectedCharacter))
+                        {
+                            result = false;
+                        }
+                    }
+                    if (result && components.Count() > 0)
                     {
                         return !Invert;
                     }

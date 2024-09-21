@@ -65,13 +65,18 @@ namespace EffectSourceConditions
                 {
                     if (skill.OwnerCharacter is Character character && dynamicStat.gameObject.GetComponents<SourceCondition>() is SourceCondition[] sourceConditions)
                     {
+                        bool result = true;
                         foreach (var sourceCondition in sourceConditions)
                         {
-                            if (sourceCondition.CharacterHasRequirement(character))
+                            if (!sourceCondition.CharacterHasRequirement(character))
                             {
-                                dynamicStat.SetSkillStats(skill);
-                                updated = true;
+                                result = false;
                             }
+                        }
+                        if (result && sourceConditions.Length > 0)
+                        {
+                            dynamicStat.SetSkillStats(skill);
+                            updated = true;
                         }
                     }
                 }

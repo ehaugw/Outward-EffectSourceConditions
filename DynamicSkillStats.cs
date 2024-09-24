@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using TinyHelper;
+using UnityEngine;
 using static MapMagic.ObjectPool;
 
 namespace EffectSourceConditions
@@ -18,10 +19,15 @@ namespace EffectSourceConditions
         public int CastSheatheRequired = 0;
         public bool CastLocomotionEnabled = false;
 
-        //public int ?ItemID = null;
+        public delegate void ManaCostModifier(Skill skill, float original, ref float result);
+        public static ManaCostModifier ManaCostModifiers = delegate (Skill skill, float original, ref float result) { };
 
         public void SetSkillStats(Skill skill) {
-            skill.ManaCost= ManaCost;
+
+            float effectiveManaCost = ManaCost;
+            ManaCostModifiers(skill, ManaCost, ref effectiveManaCost);
+
+            skill.ManaCost = Mathf.Round(effectiveManaCost);
             skill.StaminaCost= StaminaCost;
             skill.HealthCost= HealthCost;
             skill.DurabilityCost= DurabilityCost;
